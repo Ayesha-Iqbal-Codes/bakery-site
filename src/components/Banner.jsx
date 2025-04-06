@@ -29,7 +29,7 @@ const Banner = () => {
   };
 
   return (
-    <div className="relative w-full min-h-[300px] md:h-screen">
+    <div id="home" className="relative w-full min-h-[300px] md:h-screen">
       {/* Background image */}
       <div className="w-full h-full absolute top-0 left-0 overflow-hidden">
         <img
@@ -42,7 +42,7 @@ const Banner = () => {
       {/* Left arrow */}
       <button
         onClick={prevImage}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl z-10 ] p-2 rounded-full"
+        className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl z-10 p-2 rounded-full"
       >
         &#8592;
       </button>
@@ -50,20 +50,17 @@ const Banner = () => {
       {/* Right arrow */}
       <button
         onClick={nextImage}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-3xl z-10 ] p-2 rounded-full"
+        className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-3xl z-10 p-2 rounded-full"
       >
         &#8594;
       </button>
 
       {/* Order Now button */}
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
-  <button className="text-white px-4 py-1 text-sm md:px-6 md:py-2 md:text-lg rounded-full bg-[rgba(181,136,99,0.7)] font-semibold hover:bg-[rgba(181,136,99,0.9)] transition-all duration-300">
-    Order Now
-  </button>
-</div>
-
-
-
+        <button className="text-white px-4 py-1 text-sm md:px-6 md:py-2 md:text-lg rounded-full bg-[rgba(181,136,99,0.7)] font-semibold hover:bg-[rgba(181,136,99,0.9)] transition-all duration-300">
+          Order Now
+        </button>
+      </div>
 
       {/* Dots */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
