@@ -40,9 +40,11 @@ const BestSellers = () => {
       id="best-sellers"
       className="w-full bg-gradient-to-b from-[#4B2B16] to-[#2C1A15] pt-12 pb-12 px-4 md:px-16"
     >
-      <h2 className="text-4xl font-extrabold text-center mb-8 text-[#D9A27D]">
-      ⋞Best Sellers⋟
-      </h2>
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-[#fff9e8]">
+  ⋞Best Sellers⋟
+</h2>
+
+
 
       <div className="flex flex-wrap justify-center gap-8">
         {bestSellers.map((item) => (

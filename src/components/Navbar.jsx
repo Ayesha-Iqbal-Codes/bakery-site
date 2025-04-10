@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "../assets/images/logo.webp"; // Your logo image
+import logo from "../assets/images/logo.webp"; 
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,7 +12,7 @@ const Navbar = () => {
     { name: "Best Sellers", link: "#best-sellers" },
     { name: "Full Menu", link: "#menu" },
     { name: "FAQs", link: "#faqs" },
-    { name: "Contact Us", link: "#contact" },
+    { name: "Contact Us", link: "#contact-us" },
   ];
 
   useEffect(() => {

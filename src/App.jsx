@@ -4,6 +4,8 @@ import OurStory from "./components/OurStory";
 import BestSellers from "./components/BestSellers";
 import FullMenu from "./components/FullMenu";
 import Faqs from "./components/FAQs";
+import Contactus from "./components/Contactus";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -23,8 +25,16 @@ function App() {
         {/* Full Menu */}
         <FullMenu />
 
-    {/* FAQs */}
-      <Faqs />
+        {/* FAQs */}
+          <Faqs />
+
+        {/* Contact Us */}
+          <Contactus />
+
+          
+
+         {/* Footer */}
+         <Footer /> 
 
     </div>
   );

@@ -16,7 +16,7 @@ const OurStory = () => {
         {/* Right - Text (Always Centered) */}
         <div className="md:w-[60%] w-full flex flex-col items-center text-center">
           {/* Welcome Message */}
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold leading-tight mb-4 text-[#D9A27D]">
+          <h2 className="text-3xl sm:text-3xl md:text-5xl font-extrabold leading-tight mb-4 text-[#fff9e8]">
           ⤛Welcome to Our Bakery⤜ <br /> Where Every Bite Tells a Story
           </h2>
 

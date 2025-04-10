@@ -27,7 +27,7 @@ const Faqs = () => {
       id="faqs"
       className="w-full min-h-screen bg-gradient-to-b from-[#4B2B16] to-[#2C1A15] pt-28 pb-16 px-4 md:px-16"
     >
-      <h2 className="text-4xl font-bold text-center text-[#D9A27D] mb-10">
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-[#fff9e8]">
       ⥧Frequently Asked Questions⥩
       </h2>
 
