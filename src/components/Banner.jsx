@@ -28,6 +28,13 @@ const Banner = () => {
     setCurrentImageIndex(index);
   };
 
+  const scrollToMenu = () => {
+    const menuSection = document.getElementById("menu");
+    if (menuSection) {
+      menuSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div id="home" className="relative w-full min-h-[300px] md:h-screen">
       {/* Background image */}
@@ -57,7 +64,10 @@ const Banner = () => {
 
       {/* Order Now button */}
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
-        <button className="text-white px-4 py-1 text-sm md:px-6 md:py-2 md:text-lg rounded-full bg-[rgba(181,136,99,0.7)] font-semibold hover:bg-[rgba(181,136,99,0.9)] transition-all duration-300">
+        <button
+          onClick={scrollToMenu}
+          className="text-white px-4 py-1 text-sm md:px-6 md:py-2 md:text-lg rounded-full bg-[rgba(181,136,99,0.7)] font-semibold hover:bg-[rgba(181,136,99,0.9)] transition-all duration-300"
+        >
           Order Now
         </button>
       </div>

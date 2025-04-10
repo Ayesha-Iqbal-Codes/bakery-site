@@ -2,8 +2,9 @@ import OurStoryImage from "../assets/images/our.jpg"; // Update path if needed
 
 const OurStory = () => {
   return (
-    <section className="w-full bg-gradient-to-b from-[#2C1A15] to-[#4B2B16] pt-14 pb-12 px-4 md:px-16" id="ourstory">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-10">
+    <section className="w-full bg-gradient-to-b from-[#2C1A15] to-[#4B2B16] pt-14 pb-2 md:pb-12 px-4 md:px-16" id="ourstory">
+  <div className="flex flex-col md:flex-row items-center justify-center gap-10">
+
         {/* Left - Vertical Image */}
         <div className="md:w-[40%] w-full flex justify-center">
           <img

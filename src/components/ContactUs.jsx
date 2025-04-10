@@ -8,10 +8,10 @@ const ContactUs = () => {
     e.preventDefault();
     emailjs
       .sendForm(
-        "YOUR_SERVICE_ID",    // Replace with your actual values
-        "YOUR_TEMPLATE_ID",
+        "service_va1x5ds",    // Replace with your actual values
+        "template_97o8r7i",
         form.current,
-        "YOUR_PUBLIC_KEY"
+        "HO2l7MAlWTUHtKPvB"
       )
       .then(
         () => {

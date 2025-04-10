@@ -1,19 +1,18 @@
 import React from 'react';
 import logo from "../assets/images/logo.webp";
 
-
 const Footer = () => {
   return (
     <footer className="bg-[#2C1A15] text-white py-12 px-4 md:px-16">
-      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between space-y-8 md:space-y-0">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row flex-wrap items-center md:items-start justify-center md:justify-between space-y-8 md:space-y-0 text-center md:text-left">
         
         {/* Bakery Logo Section */}
-        <div className="flex items-center">
+        <div className="flex justify-center md:justify-start">
           <img src={logo} alt="Ashy Bakes Logo" className="h-32 w-auto" />
         </div>
 
-        {/* Footer Sections - Aligning Headings in a Single Row */}
-        <div className="flex space-x-12 w-full md:w-auto justify-between md:space-x-16">
+        {/* Footer Sections */}
+        <div className="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-16 w-full md:w-auto items-center md:items-start">
           
           {/* About Ashy Bakes */}
           <div className="space-y-2 max-w-xs">
@@ -27,9 +26,9 @@ const Footer = () => {
           <div className="space-y-2 max-w-xs">
             <h3 className="text-xl font-bold">Quick Links</h3>
             <ul className="text-sm space-y-2">
-              <li><a href="#best-sellers" className="hover:text-[#FFE1A5]">Best Sellers</a></li>
-              <li><a href="#full-menu" className="hover:text-[#FFE1A5]">Full Menu</a></li>
-              <li><a href="#contact-us" className="hover:text-[#FFE1A5]">Contact Us</a></li>
+              <li><a href="#best-sellers" className="text-[#FFE1A5] hover:text-white">Best Sellers</a></li>
+              <li><a href="#full-menu" className="text-[#FFE1A5] hover:text-white">Full Menu</a></li>
+              <li><a href="#contact-us" className="text-[#FFE1A5] hover:text-white">Contact Us</a></li>
             </ul>
           </div>
 
