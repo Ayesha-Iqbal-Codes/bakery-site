@@ -90,16 +90,21 @@ const FullMenu = () => {
   const closePopup = () => setActiveCategory(null);
 
   const handleQuantityChange = (itemName, value) => {
-    const newQuantity = parseInt(value) || 1;
-    setQuantities((prev) => ({ ...prev, [itemName]: newQuantity }));
-
+    if (value === "") {
+      setQuantities((prev) => ({ ...prev, [itemName]: "" })); // Allow the field to be empty
+    } else {
+      const newQuantity = Math.max(1, parseInt(value) || 1); // Prevent quantity from going below 1
+      setQuantities((prev) => ({ ...prev, [itemName]: newQuantity }));
+    }
+  
     // Update total price for this item
     const itemPrice = categoryData[activeCategory].find((item) => item.name === itemName).price;
     setTotalPrices((prev) => ({
       ...prev,
-      [itemName]: itemPrice * newQuantity, // Calculate total price
+      [itemName]: itemPrice * (parseInt(value) || 1), // Ensure total price is recalculated correctly
     }));
   };
+  
 
   const handleAddToCart = (itemName) => {
     const quantity = quantities[itemName];

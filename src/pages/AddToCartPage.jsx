@@ -1,41 +1,46 @@
 import { useState } from "react";
-import chocolateCroissantImg from "../assets/images/bs1.jpg"; // Replace with correct image
-import macaronsImg from "../assets/images/bs2.jpg"; // Replace with correct image
-import sourdoughBreadImg from "../assets/images/bs3.jpg"; // Replace with correct image
+import chocolateCroissantImg from "../assets/images/bs1.jpg";
+import macaronsImg from "../assets/images/bs2.jpg";
+import sourdoughBreadImg from "../assets/images/bs3.jpg";
 
-const BestSellers = () => {
+const AddToCartPage = () => {
   const bestSellers = [
     {
       id: 1,
       name: "Chocolate Croissant",
       description: "Flaky pastry filled with rich chocolate.",
-      price: 180, // Use number for calculation
+      price: 180,
       image: chocolateCroissantImg,
     },
     {
       id: 2,
       name: "Macarons",
       description: "French macarons with creamy filling.",
-      price: 200, // Use number for calculation
+      price: 200,
       image: macaronsImg,
     },
     {
       id: 3,
       name: "Sourdough Bread",
       description: "Artisan sourdough with a crisp crust.",
-      price: 350, // Use number for calculation
+      price: 350,
       image: sourdoughBreadImg,
     },
   ];
 
   const [cart, setCart] = useState([]);
   const [quantities, setQuantities] = useState({});
+  const [userDetails, setUserDetails] = useState({
+    name: "",
+    phone: "",
+    address: "",
+  });
 
   const handleQuantityChange = (itemName, value) => {
     if (value === "") {
-      setQuantities((prev) => ({ ...prev, [itemName]: "" })); // Allow the field to be empty
+      setQuantities((prev) => ({ ...prev, [itemName]: "" }));
     } else {
-      const newQuantity = Math.max(1, parseInt(value) || 1); // Prevent quantity from going below 1
+      const newQuantity = Math.max(1, parseInt(value) || 1);
       setQuantities((prev) => ({ ...prev, [itemName]: newQuantity }));
     }
   };
@@ -57,16 +62,20 @@ const BestSellers = () => {
   const addToCart = (item, quantity) => {
     const itemWithQuantity = { ...item, quantity };
     setCart([...cart, itemWithQuantity]);
-    alert(`${item.name} x${quantity} added to cart!`);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Your order has been placed! You can pick it up after an hour.");
   };
 
   return (
     <section
-      id="best-sellers"
+      id="add-to-cart"
       className="w-full bg-gradient-to-b from-[#4B2B16] to-[#2C1A15] pt-12 pb-10 px-4 md:px-16"
     >
       <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-[#fff9e8]">
-        ⋞Best Sellers⋟
+        ⋞Add to Cart⋟
       </h2>
 
       <div className="flex flex-wrap justify-center gap-8">
@@ -84,7 +93,6 @@ const BestSellers = () => {
             <p className="text-sm text-[#6B4B2B] my-2">{item.description}</p>
             <p className="text-lg font-bold text-[#4B2E18]">Rs {item.price}</p>
 
-            {/* Quantity input with increment and decrement buttons */}
             <div className="my-4 flex justify-center items-center">
               <button
                 onClick={() => decrementQuantity(item.name)}
@@ -119,8 +127,62 @@ const BestSellers = () => {
           </div>
         ))}
       </div>
+
+      <div className="mt-12 flex justify-between">
+        <div className="w-1/3 bg-[#F8D9B9] p-6 rounded-lg shadow-lg">
+          <h3 className="text-xl font-bold text-[#4B2E18] mb-4">Order Summary</h3>
+          {cart.length > 0 ? (
+            cart.map((item, index) => (
+              <div key={index} className="mb-4">
+                <p className="text-[#4B2E18]">
+                  {item.name} x {item.quantity} - Rs {item.price * item.quantity}
+                </p>
+              </div>
+            ))
+          ) : (
+            <p className="text-[#4B2E18]">No items in cart</p>
+          )}
+          <p className="text-lg font-bold text-[#4B2E18] mt-4">
+            Total: Rs {cart.reduce((total, item) => total + item.price * item.quantity, 0)}
+          </p>
+          <p className="mt-4 text-[#4B2E18]">Your order can only be picked up after an hour.</p>
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="w-1/3 bg-[#F8D9B9] p-6 rounded-lg shadow-lg"
+        >
+          <h3 className="text-xl font-bold text-[#4B2E18] mb-4">Your Details</h3>
+          <input
+            type="text"
+            placeholder="Name"
+            value={userDetails.name}
+            onChange={(e) => setUserDetails({ ...userDetails, name: e.target.value })}
+            className="w-full p-2 mb-4 border border-[#4B2B16] rounded-md"
+          />
+          <input
+            type="text"
+            placeholder="Phone Number"
+            value={userDetails.phone}
+            onChange={(e) => setUserDetails({ ...userDetails, phone: e.target.value })}
+            className="w-full p-2 mb-4 border border-[#4B2B16] rounded-md"
+          />
+          <textarea
+            placeholder="Address"
+            value={userDetails.address}
+            onChange={(e) => setUserDetails({ ...userDetails, address: e.target.value })}
+            className="w-full p-2 mb-4 border border-[#4B2B16] rounded-md"
+          ></textarea>
+          <button
+            type="submit"
+            className="w-full bg-[#673015] text-white py-2 px-6 rounded-full hover:bg-[#4B2E18]"
+          >
+            Place Order
+          </button>
+        </form>
+      </div>
     </section>
   );
 };
 
-export default BestSellers;
+export default AddToCartPage;

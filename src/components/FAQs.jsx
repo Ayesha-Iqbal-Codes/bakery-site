@@ -24,9 +24,10 @@ const Faqs = () => {
 
   return (
     <section
-      id="faqs"
-      className="w-full min-h-screen bg-gradient-to-b from-[#4B2B16] to-[#2C1A15] pt-14 pb-8 px-4 md:px-16"
-    >
+  id="faqs"
+  className="w-full bg-gradient-to-b from-[#4B2B16] to-[#2C1A15] pt-14 pb-2 px-4 md:px-16"
+>
+
       <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-[#fff9e8]">
       ⥧Frequently Asked Questions⥩
       </h2>
