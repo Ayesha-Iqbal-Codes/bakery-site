@@ -4,7 +4,7 @@ import OurStory from "./components/OurStory";
 import BestSellers from "./components/BestSellers";
 import FullMenu from "./components/FullMenu";
 import Faqs from "./components/FAQs";
-import Contactus from "./components/Contactus";
+import Contactus from "./components/ContactUs";
 import Footer from "./components/Footer";
 
 function App() {
