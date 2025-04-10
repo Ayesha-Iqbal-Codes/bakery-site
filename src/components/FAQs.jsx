@@ -25,17 +25,17 @@ const Faqs = () => {
   return (
     <section
       id="faqs"
-      className="w-full min-h-screen bg-[#FFE1A5] pt-28 pb-16 px-4 md:px-16"
+      className="w-full min-h-screen bg-gradient-to-b from-[#4B2B16] to-[#2C1A15] pt-28 pb-16 px-4 md:px-16"
     >
-      <h2 className="text-4xl font-bold text-center text-[#4B2B16] mb-10">
-        Frequently Asked Questions
+      <h2 className="text-4xl font-bold text-center text-[#D9A27D] mb-10">
+      ⥧Frequently Asked Questions⥩
       </h2>
 
       <div className="max-w-3xl mx-auto space-y-6">
         {faqsData.map((faq, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg shadow-md p-6 cursor-pointer transition duration-300 hover:shadow-lg"
+            className="bg-[#F8D9B9] rounded-lg shadow-md p-6 cursor-pointer transition duration-300 hover:shadow-lg"
             onClick={() => toggleFAQ(index)}
           >
             <h3 className="text-xl font-semibold text-[#673015] flex justify-between items-center">
