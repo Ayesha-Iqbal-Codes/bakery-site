@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useCart } from "../context/CartContext"; // 🔁 Use global cart context
 import chocolateCroissantImg from "../assets/images/bs1.jpg";
 import macaronsImg from "../assets/images/bs2.jpg";
 import sourdoughBreadImg from "../assets/images/bs3.jpg";
+import toast, { Toaster } from "react-hot-toast";
 
 const BestSellers = () => {
-  const { addToCart } = useCart(); // 🔁 Hook from global cart
-
   const bestSellers = [
     {
       id: 1,
@@ -31,34 +29,36 @@ const BestSellers = () => {
     },
   ];
 
+  const [cart, setCart] = useState([]);
   const [quantities, setQuantities] = useState({});
 
-  const handleQuantityChange = (itemId, value) => {
+  const handleQuantityChange = (itemName, value) => {
+    if (value === "") {
+      setQuantities((prev) => ({ ...prev, [itemName]: "" }));
+    } else {
+      const newQuantity = Math.max(1, parseInt(value) || 1);
+      setQuantities((prev) => ({ ...prev, [itemName]: newQuantity }));
+    }
+  };
+
+  const incrementQuantity = (itemName) => {
     setQuantities((prev) => ({
       ...prev,
-      [itemId]: value === "" ? "" : Math.max(1, parseInt(value) || 1),
+      [itemName]: (prev[itemName] || 1) + 1,
     }));
   };
 
-  const incrementQuantity = (itemId) => {
+  const decrementQuantity = (itemName) => {
     setQuantities((prev) => ({
       ...prev,
-      [itemId]: (prev[itemId] || 1) + 1,
+      [itemName]: Math.max(1, (prev[itemName] || 1) - 1),
     }));
   };
 
-  const decrementQuantity = (itemId) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [itemId]: Math.max(1, (prev[itemId] || 1) - 1),
-    }));
-  };
-
-  const handleAddToCart = (item) => {
-    const quantity = quantities[item.id] || 1;
+  const addToCart = (item, quantity) => {
     const itemWithQuantity = { ...item, quantity };
-    addToCart(itemWithQuantity); // 🔁 Global cart update
-    alert(`${item.name} x${quantity} added to cart!`);
+    setCart([...cart, itemWithQuantity]);
+    toast.success(`${item.name} x${quantity} added to cart!`);
   };
 
   return (
@@ -67,14 +67,14 @@ const BestSellers = () => {
       className="w-full bg-gradient-to-b from-[#4B2B16] to-[#2C1A15] pt-12 pb-10 px-4 md:px-16"
     >
       <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-[#fff9e8]">
-        ⋞ Best Sellers ⋟
+        ⋇Best Sellers⋇
       </h2>
 
       <div className="flex flex-wrap justify-center gap-8">
         {bestSellers.map((item) => (
           <div
             key={item.id}
-            className="bg-[#F8D9B9] p-6 rounded-full shadow-xl w-72 text-center transform transition duration-300 hover:scale-105"
+            className="bg-[#FCE8C1] p-6 rounded-full shadow-xl w-72 text-center transform transition duration-300 hover:scale-105"
           >
             <img
               src={item.image}
@@ -85,34 +85,8 @@ const BestSellers = () => {
             <p className="text-sm text-[#6B4B2B] my-2">{item.description}</p>
             <p className="text-lg font-bold text-[#4B2E18]">Rs {item.price}</p>
 
-            {/* Quantity Control */}
-            <div className="my-4 flex justify-center items-center">
-              <button
-                onClick={() => decrementQuantity(item.id)}
-                className="bg-[#4B2B16] text-white px-3 py-1 rounded-l-md text-sm"
-              >
-                -
-              </button>
-              <input
-                type="number"
-                min="1"
-                value={quantities[item.id] || ""}
-                onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                className="w-14 p-1 text-center border-t border-b border-[#4B2B16] focus:outline-none text-sm"
-              />
-              <button
-                onClick={() => incrementQuantity(item.id)}
-                className="bg-[#4B2B16] text-white px-3 py-1 rounded-r-md text-sm"
-              >
-                +
-              </button>
-              <p className="ml-4 text-lg text-[#4B2E18]">
-                Rs {item.price * (quantities[item.id] || 1)}
-              </p>
-            </div>
-
             <button
-              onClick={() => handleAddToCart(item)}
+              onClick={() => addToCart(item, quantities[item.name] || 1)}
               className="mt-4 bg-[#673015] text-white py-2 px-6 rounded-full hover:bg-[#4B2E18] text-sm"
             >
               Add to Cart
@@ -120,6 +94,9 @@ const BestSellers = () => {
           </div>
         ))}
       </div>
+
+      {/* Toaster for toast notifications */}
+      <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
     </section>
   );
 };

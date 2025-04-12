@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/images/logo.webp";
-import { useCart } from "../context/CartContext"; // ⬅️ Import cart context
+import { useCart } from "../context/CartContext";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-  const { cartItems } = useCart(); // ⬅️ Get cart items from context
+  const { cartItems } = useCart();
   const cartCount = cartItems.length;
 
   const navItems = [
@@ -51,7 +51,7 @@ const Navbar = () => {
           <h1 className="text-2xl font-bold">Ashy Bakes</h1>
         </div>
 
-        {/* Center Nav */}
+        {/* Center Nav for Desktop */}
         <div className="hidden md:flex gap-6 justify-center flex-grow z-10">
           {navItems.map((item) =>
             isHomePage ? (
@@ -74,8 +74,8 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Cart Icon */}
-        <div className="relative z-10 ml-4">
+        {/* Cart Icon for Desktop */}
+        <div className="hidden md:block relative z-10 ml-4">
           <Link to="/cart" className="text-[#FFE1A5] hover:text-white transition duration-300 relative">
             <ShoppingCart size={24} />
             {cartCount > 0 && (
@@ -86,8 +86,19 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
-        <div className="md:hidden z-10 ml-4">
+        {/* Mobile View: Cart + Toggle Button Side by Side */}
+        <div className="md:hidden flex items-center gap-4 z-10">
+          {/* Cart Icon for Mobile */}
+          <Link to="/cart" className="text-[#FFE1A5] hover:text-white transition duration-300 relative">
+            <ShoppingCart size={24} />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-2 bg-red-600 text-white text-xs rounded-full px-1">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+
+          {/* Hamburger Menu */}
           <button onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

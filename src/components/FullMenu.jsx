@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useCart } from "../context/CartContext";
+import toast from "react-hot-toast";
+
 
 // Importing category images
 import breadImg from "../assets/images/fm1.jpg";
@@ -61,7 +64,7 @@ const categoryData = {
     { name: "Fruit Cake", price: 650, image: fruitCakeImg, description: "Packed with dried fruits and nuts, perfect for the holidays." },
   ],
   Biscuits: [
-    { name: "Macarons", price: 200, image: shortbreadImg, description: "French meringue-based biscuit known for its delicate, crisp shell & chewy interior." },
+    { name: "Macarons", price: 200, image: shortbreadImg, description: "French meringue-based biscuit known for its chewy interior." },
     { name: "Butter Biscuit", price: 120, image: butterBiscuitImg, description: "Crispy, buttery biscuits that melt in your mouth." },
     { name: "Coconut Biscuit", price: 150, image: coconutBiscuitImg, description: "A tropical twist with shredded coconut." },
     { name: "Chocolate Chip", price: 130, image: chocolateChipImg, description: "Chewy biscuits packed with rich chocolate chips." },
@@ -106,11 +109,38 @@ const FullMenu = () => {
   };
   
 
+  const { addToCart } = useCart();
+
   const handleAddToCart = (itemName) => {
     const quantity = quantities[itemName];
-    const totalPrice = totalPrices[itemName];
-    alert(`Added ${quantity} x ${itemName} to cart! Total: ₨ ${totalPrice}`);
+    const item = categoryData[activeCategory].find((i) => i.name === itemName);
+  
+    if (!item || !quantity) {
+      toast.error("Something went wrong!");
+      return;
+    }
+  
+    const cartItem = {
+      id: `${activeCategory}-${item.name}`, // Ensures uniqueness
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      quantity: quantity,
+      category: activeCategory,
+    };
+  
+    addToCart(cartItem);
+  
+    toast.success(`${quantity} × ${item.name} added to cart! 🛒`, {
+      duration: 3000,
+      style: {
+        borderRadius: "8px",
+        background: "#2C1A15",
+        color: "#fff",
+      },
+    });
   };
+  
 
   return (
     <section
@@ -123,7 +153,7 @@ const FullMenu = () => {
         {Object.keys(categoryData).map((category) => (
           <div
             key={category}
-            className="bg-[#FCE8C1] text-[#4B2B16] rounded-full shadow-xl hover:scale-105 transition-all duration-300 flex flex-col items-center justify-between p-4"
+            className="bg-[#FFE1A5] text-[#4B2B16] rounded-full shadow-xl hover:scale-105 transition-all duration-300 flex flex-col items-center justify-between p-4"
           >
             <img
               src={
@@ -160,56 +190,67 @@ const FullMenu = () => {
 
       {/* Modal */}
       {activeCategory && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 px-4">
-          <div className="bg-[#FFE1A5] rounded-xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
-            <button
-              onClick={closePopup}
-              className="absolute top-2 right-4 text-[#673015] text-3xl font-bold"
-            >
-              &times;
-            </button>
-            <h3 className="text-3xl font-bold text-center text-[#4B2B16] mb-6">
-              {activeCategory}
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {categoryData[activeCategory].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-[#2C1A15] text-white rounded-2xl shadow-md p-4"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-32 object-cover rounded-lg mb-3"
-                  />
-                  <h4 className="font-semibold text-lg mb-2">{item.name}</h4>
-                  <p className="text-sm text-[#FCE8C1] mb-4">{item.description}</p>
-                  <div className="flex flex-col items-start">
-                    <div className="flex items-center mb-4">
-                      <p className="text-sm mr-4">₨ {totalPrices[item.name]}</p>
-                      <input
-                        type="number"
-                        min={1}
-                        value={quantities[item.name] || 1}
-                        onChange={(e) =>
-                          handleQuantityChange(item.name, e.target.value)
-                        }
-                        className="w-16 border rounded px-2 py-1 text-sm"
-                      />
-                    </div>
-                    <button
-                      onClick={() => handleAddToCart(item.name)}
-                      className="bg-[#673015] text-white px-3 py-1 rounded hover:bg-[#4B2B16]"
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
+  <div
+    className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+    onClick={closePopup}
+  >
+    <div
+      className="bg-[#FFE1A5] rounded-xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative scrollbar-none"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        onClick={closePopup}
+        className="absolute top-2 right-4 text-[#673015] text-3xl font-bold"
+      >
+        &times;
+      </button>
+      <h3 className="text-3xl font-bold text-center text-[#4B2B16] mb-6">
+        {activeCategory}
+      </h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {categoryData[activeCategory].map((item, idx) => (
+          <div
+            key={idx}
+            className="bg-[#2C1A15] text-white rounded-2xl shadow-md p-4"
+          >
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-full h-32 object-cover rounded-lg mb-3"
+            />
+            <h4 className="font-semibold text-lg mb-2">{item.name}</h4>
+            <p className="text-sm text-[#FCE8C1] mb-4">{item.description}</p>
+            <div className="flex flex-col items-start">
+              <div className="flex items-center mb-4">
+                <p className="text-sm mr-4">₨ {totalPrices[item.name]}</p>
+                <input
+                  type="number"
+                  min={1}
+                  value={quantities[item.name] || 1}
+                  onChange={(e) =>
+                    handleQuantityChange(item.name, e.target.value)
+                  }
+                  className="w-16 border rounded px-2 py-1 text-sm"
+                />
+              </div>
+              <div className="flex justify-center items-center w-full mt-1">
+                  <button
+                    onClick={() => handleAddToCart(item.name)}
+                    className="bg-[#673015] text-white px-12 py-1 rounded hover:bg-[#4B2B16] cursor-pointer transition-colors duration-200"
+                  >
+                    Add to Cart
+                  </button>
                 </div>
-              ))}
+
             </div>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+
     </section>
   );
 };
