@@ -3,8 +3,11 @@ import chocolateCroissantImg from "../assets/images/bs1.jpg";
 import macaronsImg from "../assets/images/bs2.jpg";
 import sourdoughBreadImg from "../assets/images/bs3.jpg";
 import toast, { Toaster } from "react-hot-toast";
+import { useCart } from "../context/CartContext"; // ⬅️ Use your cart context
 
 const BestSellers = () => {
+  const { addToCart } = useCart(); // ⬅️ From CartContext
+
   const bestSellers = [
     {
       id: 1,
@@ -29,7 +32,6 @@ const BestSellers = () => {
     },
   ];
 
-  const [cart, setCart] = useState([]);
   const [quantities, setQuantities] = useState({});
 
   const handleQuantityChange = (itemName, value) => {
@@ -41,24 +43,10 @@ const BestSellers = () => {
     }
   };
 
-  const incrementQuantity = (itemName) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [itemName]: (prev[itemName] || 1) + 1,
-    }));
-  };
-
-  const decrementQuantity = (itemName) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [itemName]: Math.max(1, (prev[itemName] || 1) - 1),
-    }));
-  };
-
-  const addToCart = (item, quantity) => {
-    const itemWithQuantity = { ...item, quantity };
-    setCart([...cart, itemWithQuantity]);
-    toast.success(`${item.name} x${quantity} added to cart!`);
+  const handleAddToCart = (item) => {
+    const quantity = quantities[item.name] || 1;
+    addToCart({ ...item, quantity }); // ⬅️ Use context addToCart
+    toast.success(`${item.name} x${quantity} added to cart!🛒`);
   };
 
   return (
@@ -83,10 +71,27 @@ const BestSellers = () => {
             />
             <h3 className="text-xl font-bold text-[#4B2E18]">{item.name}</h3>
             <p className="text-sm text-[#6B4B2B] my-2">{item.description}</p>
-            <p className="text-lg font-bold text-[#4B2E18]">Rs {item.price}</p>
+
+            {/* Price and Quantity Control */}
+            <div className="flex items-center justify-center gap-4 mt-2">
+              <p className="text-lg font-bold text-[#4B2E18]">
+                Rs {item.price * (quantities[item.name] || 1)}
+              </p>
+
+              {/* Quantity input */}
+              <input
+                type="number"
+                min="1"
+                className="w-16 text-center rounded-md border border-gray-300 px-2 py-1"
+                value={quantities[item.name] || 1}
+                onChange={(e) =>
+                  handleQuantityChange(item.name, e.target.value)
+                }
+              />
+            </div>
 
             <button
-              onClick={() => addToCart(item, quantities[item.name] || 1)}
+              onClick={() => handleAddToCart(item)}
               className="mt-4 bg-[#673015] text-white py-2 px-6 rounded-full hover:bg-[#4B2E18] text-sm"
             >
               Add to Cart
@@ -95,8 +100,7 @@ const BestSellers = () => {
         ))}
       </div>
 
-      {/* Toaster for toast notifications */}
-      <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
+      
     </section>
   );
 };

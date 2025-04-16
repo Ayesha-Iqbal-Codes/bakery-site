@@ -1,6 +1,6 @@
 import { useCart } from "../context/CartContext";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast"; // Import Toaster here
 
 function AddToCart() {
   const { cartItems, removeFromCart, clearCart, updateCartItemQuantity } = useCart();
@@ -37,6 +37,7 @@ function AddToCart() {
 
   return (
     <div className="min-h-screen bg-[#f3e5ab] text-[#4e342e] px-4 py-8">
+      <Toaster /> {/* Place Toaster here inside AddToCart */}
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-10">
         <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
 
@@ -147,8 +148,13 @@ function AddToCart() {
                   value={form.pickupTime}
                   onChange={handleChange}
                   required
+                  min="10:00"
+                  max="21:00"
                   className="w-full p-2 rounded-md border"
                 />
+                <p className="text-sm text-red-500">
+                  Pickup is only available between 10:00 AM and 9:00 PM.
+                </p>
               </div>
 
               {/* Pickup Note */}

@@ -135,8 +135,8 @@ const FullMenu = () => {
       duration: 3000,
       style: {
         borderRadius: "8px",
-        background: "#2C1A15",
-        color: "#fff",
+        background: "#fff",
+        color: "#2C1A15",
       },
     });
   };

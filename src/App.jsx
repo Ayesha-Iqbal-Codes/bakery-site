@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Toaster } from "react-hot-toast"; // ✅ Toast provider
+
 
 import Navbar from "./components/Navbar";
 import Banner from "./components/Banner";
@@ -31,19 +31,8 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#f3e5ab] text-[#4e342e]">
-      {/* ✅ Toast Container */}
-      <Toaster
-        position="top-center" // Toast in the center of the screen
-        toastOptions={{
-          duration: 10000, // Display for 10 seconds
-          style: {
-            background: "#4e342e", // Optional: set background color for the toast
-            color: "#f3e5ab", // Optional: set text color
-            borderRadius: "8px", // Optional: rounded corners for the toast
-            padding: "12px 24px", // Optional: add padding for better appearance
-          },
-        }}
-      />
+     
+    
 
       {!hideNavAndFooter && <Navbar />}
 

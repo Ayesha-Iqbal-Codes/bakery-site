@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import emailjs from "@emailjs/browser";
+import toast, { Toaster } from "react-hot-toast";
 
 const ContactUs = () => {
   const form = useRef();
@@ -15,19 +16,44 @@ const ContactUs = () => {
       )
       .then(
         () => {
-          alert("Message sent successfully!");
+          toast.success("Message sent successfully!", {
+            style: {
+              background: "#fff",
+              color: "#2C1A15",
+              border: "1px solid #2C1A15",
+            },
+            iconTheme: {
+              primary: "#008000",
+              secondary: "#fff",
+            },
+          });
           e.target.reset();
         },
         (error) => {
-          alert("Something went wrong. Please try again.");
+          toast.error("Something went wrong. Please try again.", {
+            style: {
+              background: "#FFE1A5",
+              color: "#2C1A15",
+              border: "1px solid #2C1A15",
+            },
+            iconTheme: {
+              primary: "#2C1A15",
+              secondary: "#FFE1A5",
+            },
+          });
           console.log(error.text);
         }
       );
   };
 
   return (
-    <section id="contact-us" className="w-full bg-gradient-to-b from-[#2C1A15] to-[#4B2B16] py-12 px-4 md:px-16 text-white">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-[#fff9e8]">⌯Contact Us⌯</h2>
+    <section
+      id="contact-us"
+      className="w-full bg-gradient-to-b from-[#2C1A15] to-[#4B2B16] py-12 px-4 md:px-16 text-white"
+    >
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-[#fff9e8]">
+        ⌯Contact Us⌯
+      </h2>
 
       {/* Contact Form */}
       <div className="max-w-xl mx-auto bg-[#FFE1A5] rounded-2xl p-6 shadow-lg text-[#2C1A15] mb-8">
@@ -37,6 +63,13 @@ const ContactUs = () => {
             type="text"
             name="user_name"
             placeholder="Your Name"
+            required
+            className="p-2 border border-[#2C1A15] rounded text-sm"
+          />
+          <input
+            type="tel"
+            name="user_phone"
+            placeholder="Your Phone Number"
             required
             className="p-2 border border-[#2C1A15] rounded text-sm"
           />
@@ -79,7 +112,8 @@ const ContactUs = () => {
               Our Location
             </h3>
             <p className="text-base sm:text-lg md:text-lg text-[#EBCEBB] leading-relaxed mt-0 max-w-xl">
-              Come visit us at our Islamabad branch, located at I-8 Markaz. We'd love to welcome you with the aroma of fresh bakes!
+              Come visit us at our Islamabad branch, located at I-8 Markaz.
+              We'd love to welcome you with the aroma of fresh bakes!
             </p>
           </div>
         </div>
@@ -98,6 +132,9 @@ const ContactUs = () => {
           ></iframe>
         </div>
       </div>
+
+      {/* Toaster for Notifications */}
+      <Toaster position="top-center" />
     </section>
   );
 };
