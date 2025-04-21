@@ -1,5 +1,4 @@
-🍰 Ashy Bakes
-Ashy Bakes is a modern, responsive single-page bakery website built using React + Vite. Users can browse the menu, view best sellers, and place orders directly from the site. It features an elegant food-themed UI with smooth scrolling, cart management, and localStorage integration.
+🍰 Ashy Bakes is a modern, responsive single-page bakery website built using React + Vite. Users can browse the menu, view best sellers, and place orders directly from the site. It features an elegant food-themed UI with smooth scrolling, cart management, and localStorage integration.
 
 🚀 Features
 Full menu with categories: Breads, Cakes, Croissants, Biscuits
