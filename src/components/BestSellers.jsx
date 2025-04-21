@@ -3,10 +3,10 @@ import chocolateCroissantImg from "../assets/images/bs1.jpg";
 import macaronsImg from "../assets/images/bs2.jpg";
 import sourdoughBreadImg from "../assets/images/bs3.jpg";
 import toast, { Toaster } from "react-hot-toast";
-import { useCart } from "../context/CartContext"; // ⬅️ Use your cart context
+import { useCart } from "../context/CartContext"; 
 
 const BestSellers = () => {
-  const { addToCart } = useCart(); // ⬅️ From CartContext
+  const { addToCart } = useCart(); 
 
   const bestSellers = [
     {
@@ -45,7 +45,7 @@ const BestSellers = () => {
 
   const handleAddToCart = (item) => {
     const quantity = quantities[item.name] || 1;
-    addToCart({ ...item, quantity }); // ⬅️ Use context addToCart
+    addToCart({ ...item, quantity }); 
     toast.success(`${item.name} x${quantity} added to cart!🛒`);
   };
 

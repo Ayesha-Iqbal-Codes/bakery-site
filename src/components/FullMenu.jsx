@@ -2,14 +2,11 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import toast from "react-hot-toast";
 
-
-// Importing category images
 import breadImg from "../assets/images/fm1.jpg";
 import croissantImg from "../assets/images/fm2.jpg";
 import cakeImg from "../assets/images/fm3.avif";
 import biscuitImg from "../assets/images/fm4.jpg";
 
-// Importing item images for all the items under each category
 import sourdoughImg from "../assets/images/b1.avif";
 import wholeWheatImg from "../assets/images/b2.jpg";
 import multigrainImg from "../assets/images/b3.jpg";
@@ -84,7 +81,7 @@ const FullMenu = () => {
     const defaultTotalPrices = {};
     categoryData[category].forEach((item) => {
       defaultQuantities[item.name] = 1;
-      defaultTotalPrices[item.name] = item.price; // Initialize total price with item price
+      defaultTotalPrices[item.name] = item.price; 
     });
     setQuantities(defaultQuantities);
     setTotalPrices(defaultTotalPrices);
@@ -94,9 +91,9 @@ const FullMenu = () => {
 
   const handleQuantityChange = (itemName, value) => {
     if (value === "") {
-      setQuantities((prev) => ({ ...prev, [itemName]: "" })); // Allow the field to be empty
+      setQuantities((prev) => ({ ...prev, [itemName]: "" })); 
     } else {
-      const newQuantity = Math.max(1, parseInt(value) || 1); // Prevent quantity from going below 1
+      const newQuantity = Math.max(1, parseInt(value) || 1); 
       setQuantities((prev) => ({ ...prev, [itemName]: newQuantity }));
     }
   
@@ -104,7 +101,7 @@ const FullMenu = () => {
     const itemPrice = categoryData[activeCategory].find((item) => item.name === itemName).price;
     setTotalPrices((prev) => ({
       ...prev,
-      [itemName]: itemPrice * (parseInt(value) || 1), // Ensure total price is recalculated correctly
+      [itemName]: itemPrice * (parseInt(value) || 1), 
     }));
   };
   
@@ -121,7 +118,7 @@ const FullMenu = () => {
     }
   
     const cartItem = {
-      id: `${activeCategory}-${item.name}`, // Ensures uniqueness
+      id: `${activeCategory}-${item.name}`, 
       name: item.name,
       price: item.price,
       image: item.image,

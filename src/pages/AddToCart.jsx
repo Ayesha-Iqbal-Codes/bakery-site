@@ -1,6 +1,6 @@
 import { useCart } from "../context/CartContext";
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast"; // Import Toaster here
+import toast, { Toaster } from "react-hot-toast"; 
 
 function AddToCart() {
   const { cartItems, removeFromCart, clearCart, updateCartItemQuantity } = useCart();
@@ -37,7 +37,7 @@ function AddToCart() {
 
   return (
     <div className="min-h-screen bg-[#f3e5ab] text-[#4e342e] px-4 py-8">
-      <Toaster /> {/* Place Toaster here inside AddToCart */}
+      <Toaster /> 
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-10">
         <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
 

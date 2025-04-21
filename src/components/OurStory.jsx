@@ -1,4 +1,4 @@
-import OurStoryImage from "../assets/images/our.jpg"; // Update path if needed
+import OurStoryImage from "../assets/images/our.jpg"; 
 
 const OurStory = () => {
   return (
@@ -14,14 +14,14 @@ const OurStory = () => {
           />
         </div>
 
-        {/* Right - Text (Always Centered) */}
+        
         <div className="md:w-[60%] w-full flex flex-col items-center text-center">
-          {/* Welcome Message */}
+        
           <h2 className="text-3xl sm:text-3xl md:text-5xl font-extrabold leading-tight mb-4 text-[#fff9e8]">
           ⤛Welcome to Our Bakery⤜ <br /> Where Every Bite Tells a Story
           </h2>
 
-          {/* Paragraph - Slightly lighter for contrast */}
+         
           <p className="text-base sm:text-lg md:text-lg text-[#EBCEBB] leading-relaxed mt-6 max-w-xl">
             From humble beginnings to heartfelt treats, our passion for baking is
             rooted in family traditions and a love for good food. Every loaf,

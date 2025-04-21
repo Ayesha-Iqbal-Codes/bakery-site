@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Image1 from '../assets/images/ughh.jpg'; // Replace with your image paths
+import Image1 from '../assets/images/ughh.jpg'; 
 import Image2 from '../assets/images/cro.jpg';
 import Image3 from '../assets/images/bake.jpg';
 
@@ -37,7 +37,7 @@ const Banner = () => {
 
   return (
     <div id="home" className="relative w-full min-h-[300px] md:h-screen">
-      {/* Background image */}
+     
       <div className="w-full h-full absolute top-0 left-0 overflow-hidden">
         <img
           src={images[currentImageIndex]}

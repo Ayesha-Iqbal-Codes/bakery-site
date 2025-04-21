@@ -9,7 +9,7 @@ const ContactUs = () => {
     e.preventDefault();
     emailjs
       .sendForm(
-        "service_va1x5ds",    // Replace with your actual values
+        "service_va1x5ds",    
         "template_97o8r7i",
         form.current,
         "HO2l7MAlWTUHtKPvB"
@@ -133,7 +133,7 @@ const ContactUs = () => {
         </div>
       </div>
 
-      {/* Toaster for Notifications */}
+      
       <Toaster position="top-center" />
     </section>
   );
