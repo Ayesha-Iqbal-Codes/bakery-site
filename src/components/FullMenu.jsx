@@ -80,8 +80,8 @@ const FullMenu = () => {
     const defaultQuantities = {};
     const defaultTotalPrices = {};
     categoryData[category].forEach((item) => {
-      defaultQuantities[item.name] = 1;
-      defaultTotalPrices[item.name] = item.price; 
+      defaultQuantities[item.name] = "1";
+      defaultTotalPrices[item.name] = item.price;
     });
     setQuantities(defaultQuantities);
     setTotalPrices(defaultTotalPrices);
@@ -90,44 +90,59 @@ const FullMenu = () => {
   const closePopup = () => setActiveCategory(null);
 
   const handleQuantityChange = (itemName, value) => {
-    if (value === "") {
-      setQuantities((prev) => ({ ...prev, [itemName]: "" })); 
-    } else {
-      const newQuantity = Math.max(1, parseInt(value) || 1); 
-      setQuantities((prev) => ({ ...prev, [itemName]: newQuantity }));
+    // Allow empty string so user can clear input
+    if (/^\d*$/.test(value)) {
+      setQuantities((prev) => ({ ...prev, [itemName]: value }));
+
+      const numericValue = parseInt(value);
+      const itemPrice = categoryData[activeCategory].find(
+        (item) => item.name === itemName
+      ).price;
+
+      setTotalPrices((prev) => ({
+        ...prev,
+        [itemName]: numericValue > 0 ? itemPrice * numericValue : itemPrice,
+      }));
     }
-  
-    // Update total price for this item
-    const itemPrice = categoryData[activeCategory].find((item) => item.name === itemName).price;
-    setTotalPrices((prev) => ({
-      ...prev,
-      [itemName]: itemPrice * (parseInt(value) || 1), 
-    }));
   };
-  
+
+  const handleBlur = (itemName) => {
+    if (!quantities[itemName] || parseInt(quantities[itemName]) < 1) {
+      const itemPrice = categoryData[activeCategory].find(
+        (item) => item.name === itemName
+      ).price;
+      setQuantities((prev) => ({ ...prev, [itemName]: "1" }));
+      setTotalPrices((prev) => ({
+        ...prev,
+        [itemName]: itemPrice,
+      }));
+    }
+  };
 
   const { addToCart } = useCart();
 
   const handleAddToCart = (itemName) => {
-    const quantity = quantities[itemName];
-    const item = categoryData[activeCategory].find((i) => i.name === itemName);
-  
-    if (!item || !quantity) {
-      toast.error("Something went wrong!");
+    const quantity = parseInt(quantities[itemName]);
+    const item = categoryData[activeCategory].find(
+      (i) => i.name === itemName
+    );
+
+    if (!item || !quantity || quantity < 1) {
+      toast.error("Please enter a valid quantity!");
       return;
     }
-  
+
     const cartItem = {
-      id: `${activeCategory}-${item.name}`, 
+      id: `${activeCategory}-${item.name}`,
       name: item.name,
       price: item.price,
       image: item.image,
       quantity: quantity,
       category: activeCategory,
     };
-  
+
     addToCart(cartItem);
-  
+
     toast.success(`${quantity} × ${item.name} added to cart! 🛒`, {
       duration: 3000,
       style: {
@@ -137,14 +152,15 @@ const FullMenu = () => {
       },
     });
   };
-  
 
   return (
     <section
       id="menu"
       className="w-full bg-gradient-to-b from-[#2C1A15] to-[#4B2B16] pt-14 pb-8 px-4 md:px-16 text-white"
     >
-      <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-[#fff9e8]">⊶Our Full Menu⊷</h2>
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-[#fff9e8]">
+        ⊶Our Full Menu⊷
+      </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         {Object.keys(categoryData).map((category) => (
@@ -185,71 +201,70 @@ const FullMenu = () => {
         ))}
       </div>
 
-      {/* Modal */}
       {activeCategory && (
-  <div
-    className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4"
-    onClick={closePopup}
-  >
-    <div
-      className="bg-[#FFE1A5] rounded-xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative scrollbar-none"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <button
-        onClick={closePopup}
-        className="absolute top-2 right-4 text-[#673015] text-3xl font-bold"
-      >
-        &times;
-      </button>
-      <h3 className="text-3xl font-bold text-center text-[#4B2B16] mb-6">
-        {activeCategory}
-      </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {categoryData[activeCategory].map((item, idx) => (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+          onClick={closePopup}
+        >
           <div
-            key={idx}
-            className="bg-[#2C1A15] text-white rounded-2xl shadow-md p-4"
+            className="bg-[#FFE1A5] rounded-xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative scrollbar-none"
+            onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-full h-32 object-cover rounded-lg mb-3"
-            />
-            <h4 className="font-semibold text-lg mb-2">{item.name}</h4>
-            <p className="text-sm text-[#FCE8C1] mb-4">{item.description}</p>
-            <div className="flex flex-col items-start">
-              <div className="flex items-center mb-4">
-                <p className="text-sm mr-4">₨ {totalPrices[item.name]}</p>
-                <input
-                  type="number"
-                  min={1}
-                  value={quantities[item.name] || 1}
-                  onChange={(e) =>
-                    handleQuantityChange(item.name, e.target.value)
-                  }
-                  className="w-16 border rounded px-2 py-1 text-sm"
-                />
-              </div>
-              <div className="flex justify-center items-center w-full mt-1">
-                  <button
-                    onClick={() => handleAddToCart(item.name)}
-                    className="bg-[#673015] text-white px-12 py-1 rounded hover:bg-[#4B2B16] cursor-pointer transition-colors duration-200"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
+            <button
+              onClick={closePopup}
+              className="absolute top-2 right-4 text-[#673015] text-3xl font-bold"
+            >
+              &times;
+            </button>
+            <h3 className="text-3xl font-bold text-center text-[#4B2B16] mb-6">
+              {activeCategory}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {categoryData[activeCategory].map((item, idx) => (
+                <div
+                  key={idx}
+                  className="bg-[#2C1A15] text-white rounded-2xl shadow-md p-4"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-32 object-cover rounded-lg mb-3"
+                  />
+                  <h4 className="font-semibold text-lg mb-2">{item.name}</h4>
+                  <p className="text-sm text-[#FCE8C1] mb-4">
+                    {item.description}
+                  </p>
+                  <div className="flex flex-col items-start">
+                    <div className="flex items-center mb-4">
+                      <p className="text-sm mr-4">
+                        ₨ {totalPrices[item.name] || item.price}
+                      </p>
+                      <input
+                        type="number"
+                        min="1"
+                        value={quantities[item.name] ?? "1"}
+                        onChange={(e) => handleQuantityChange(item.name, e.target.value)}
+                        onBlur={() => handleBlur(item.name)}
+                        className="w-16 border rounded px-2 py-1 text-sm text-white"
+                      />
 
+                    </div>
+                    <div className="flex justify-center items-center w-full mt-1">
+                      <button
+                        onClick={() => handleAddToCart(item.name)}
+                        className="bg-[#673015] text-white px-12 py-1 rounded hover:bg-[#4B2B16] cursor-pointer transition-colors duration-200"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
-)}
-
-
+        </div>
+      )}
     </section>
   );
 };
-
 export default FullMenu;

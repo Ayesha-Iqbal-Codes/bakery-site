@@ -37,11 +37,17 @@ const BestSellers = () => {
   const handleQuantityChange = (itemName, value) => {
     if (value === "") {
       setQuantities((prev) => ({ ...prev, [itemName]: "" }));
-    } else {
-      const newQuantity = Math.max(1, parseInt(value) || 1);
-      setQuantities((prev) => ({ ...prev, [itemName]: newQuantity }));
+    } else if (!isNaN(value)) {
+      setQuantities((prev) => ({ ...prev, [itemName]: parseInt(value) }));
     }
   };
+  
+  const handleBlur = (itemName) => {
+    if (!quantities[itemName] || quantities[itemName] < 1) {
+      setQuantities((prev) => ({ ...prev, [itemName]: 1 }));
+    }
+  };
+  
 
   const handleAddToCart = (item) => {
     const quantity = quantities[item.name] || 1;
@@ -80,14 +86,17 @@ const BestSellers = () => {
 
               {/* Quantity input */}
               <input
-                type="number"
-                min="1"
-                className="w-16 text-center rounded-md border border-gray-300 px-2 py-1"
-                value={quantities[item.name] || 1}
-                onChange={(e) =>
-                  handleQuantityChange(item.name, e.target.value)
-                }
-              />
+  type="number"
+  min="1"
+  className="w-16 text-center rounded-md border border-gray-300 px-2 py-1 text-black"
+  value={quantities[item.name] === "" ? "" : quantities[item.name] || 1}
+  onChange={(e) =>
+    handleQuantityChange(item.name, e.target.value)
+  }
+  onBlur={() => handleBlur(item.name)}
+/>
+
+
             </div>
 
             <button
